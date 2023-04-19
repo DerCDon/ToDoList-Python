@@ -1,0 +1,198 @@
+openapi: 3.0.3
+info: 
+  title: To-Do-Listen-Verwaltung 1.0.0
+  description: |-
+    Eine To-Do-Listen-Verwaltung mithilfe einer API
+  version: 1.0.0
+  
+paths:
+  /todo-list:
+    post: 
+      summary: insert new to do list
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToDoList'
+      parameters: 
+      - name: 'name_of_to_do_list'
+        in: 'query'
+        required: true
+        schema:
+          type: string
+    get:
+      summary: get all to do lists
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToDoList'
+                
+                
+                
+                
+  /todo-list/{list_id}:
+    get:
+      summary: get a specific to do list
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToDoListEntry'
+        '404':
+          description: ID not found
+      parameters: 
+      - name: 'list_id'
+        in: 'path'
+        required: true
+        schema:
+          type: integer
+  
+    delete:
+      summary: delete a to do list
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: ID not found
+        '500':
+          description: Error
+      parameters: 
+      - name: 'list_id'
+        in: 'path'
+        required: true
+        schema:
+          type: integer
+    
+    patch:
+      summary: changes name of to do list
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: ID not found
+        '500':
+          description: Error
+      parameters: 
+      - name: 'list_id'
+        in: 'path'
+        required: true
+        schema:
+          type: integer
+      - name: 'list_name'
+        in: 'query'
+        required: true
+        schema:
+          $ref: '#/components/schemas/ToDoListName'
+
+  /todo-list/{list_id}/entry:
+    post: 
+      summary: inserts a new entry 
+      responses:
+        '200':
+          description: Success
+          content: 
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ToDoListEntry'
+        '404':
+          description: ID not found
+      parameters:
+      - name: 'list_id'
+        in: 'path'
+        required: true
+        schema:
+          type: integer
+      - name: 'to_do_list_entry'
+        in: 'query'
+        required: true
+        schema:
+          $ref: '#/components/schemas/ToDoListEntry'
+        
+        
+        
+  /entry/{entry_id}:
+    patch:
+      summary: modifies to do list entry
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: ID not found
+        '500':
+          description: Error
+      parameters:
+      - name: 'entry_id'
+        in: 'path'
+        required: true
+        schema:
+          type: integer
+      - name: 'to_do_list_entry'
+        in: 'query'
+        required: true
+        schema:
+          $ref: '#/components/schemas/ToDoListEntry'    
+        
+    delete:
+      summary: deletes to do list entry
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: ID not found
+        '500':
+          description: Error
+      parameters:
+      - name: 'entry_id'
+        in: 'path'
+        required: true
+        schema:
+          type: integer
+
+components:
+  schemas:
+    ToDoList:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID from to do list
+        name:
+          type: string
+          description: name from to do list
+    ToDoListEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID from entry
+        name:
+          type: string
+          description: name from entry
+        description: 
+          type: string
+          description: description from entry
+        ToDoListID:
+          type: integer
+          description: ID from to do list
+    ToDoListName:
+      type: object
+      properties:
+        name: 
+          type: string
+          description: name from to do list
+          
+    
+        
+        
+          
+  
+
+      
+      
