@@ -4,7 +4,10 @@ info:
   description: |-
     Eine To-Do-Listen-Verwaltung mithilfe einer API
   version: 1.0.0
-  
+
+servers:
+  - url: http://127.0.0.1:5000/
+
 paths:
   /todo-list:
     post: 
@@ -18,10 +21,13 @@ paths:
                 $ref: '#/components/schemas/ToDoList'
       parameters: 
       - name: 'name_of_to_do_list'
-        in: 'query'
+        in: header
         required: true
         schema:
-          type: string
+          type: object
+          properties:
+            name:
+              type: string 
     get:
       summary: get all to do lists
       responses:
@@ -49,10 +55,10 @@ paths:
           description: ID not found
       parameters: 
       - name: 'list_id'
-        in: 'path'
+        in: 'query'
         required: true
         schema:
-          type: integer
+          type: string
   
     delete:
       summary: delete a to do list
